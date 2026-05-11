@@ -1,2 +1,91 @@
 \section{Introduction}
-This is introduction
+\label{sec:introduction}
+
+The evolution toward 6G networks is driven by the need to support increasingly
+complex and dynamic applications, including Digital Twins (DT), autonomous
+systems, and intelligent environments. Among these, smart-warehouse systems
+represent a particularly challenging use case, where mobile robots, sensing
+devices, and control systems must operate reliably under stringent latency,
+reliability, and throughput requirements. In such environments, the wireless
+network is no longer a passive communication medium: it becomes an active
+component of the system that must adapt continuously to changes in user
+position, mobility patterns, and environmental conditions. This motivates the
+concept of \emph{situation awareness}, in which the communication system
+leverages contextual information to optimise its behaviour proactively rather
+than reactively~\cite{ref:positioning_6g}.
+
+Situation awareness, in the context of wireless access networks, refers to the
+ability of the network---particularly the antenna system and its associated
+control logic---to perceive and exploit contextual information such as user
+equipment (UE) location, mobility trajectories, surrounding geometry, and
+potential obstacles. Instead of relying on periodic beam training or
+threshold-based handovers, a situation-aware system anticipates future channel
+conditions and adapts accordingly. In a smart-warehouse setting, this
+includes predicting robot movement along planned paths, identifying potential
+blockages from racks or moving objects, and adjusting beamforming strategies
+to maintain reliable links. Such proactive adaptation has been shown to
+improve key performance indicators (KPIs) including latency, throughput,
+reliability, and energy efficiency, particularly in higher-frequency bands
+where propagation is highly sensitive to environmental
+dynamics~\cite{ref:multimodal_bf,ref:predictive_handover}.
+
+Enabling situation awareness, however, requires the network to have access to
+accurate and timely environmental information. Conventional radio measurements
+such as RSRP or SINR provide limited insight into the physical environment and
+often arrive too late to support proactive adaptation. To overcome this
+limitation, the antenna system must be endowed with \emph{sensing
+capabilities}, allowing it to observe the surrounding environment and infer
+the position and motion of objects directly. This convergence of sensing and
+communication functionalities is a fundamental requirement for next-generation
+networks and forms the basis of the Integrated Sensing and Communication
+(ISAC) paradigm. ISAC integrates radar-like sensing into the communication
+infrastructure so that the same hardware, waveform, and spectrum are jointly
+used for data transmission and environmental sensing. In a smart warehouse,
+ISAC enables a base station to detect and track mobile robots and other
+dynamic objects from reflected signals, transforming the communication system
+into a distributed sensing platform without dedicated sensing infrastructure.
+
+A key challenge in studying ISAC systems lies in faithfully modelling the
+interaction between electromagnetic waves and complex environments.
+Conventional system-level simulators rely on stochastic channel models that do
+not capture site-specific reflections, diffractions, and blockages. To address
+this, ray-tracing techniques are employed as a high-fidelity modelling
+approach: by leveraging detailed scene geometry and material properties, ray
+tracing provides per-path delays, angles of arrival/departure, and complex
+gains, which are essential both for accurate communication modelling and for
+the radar-like reasoning that underpins
+sensing~\cite{ref:sionna_rt,ref:ns3sionna}.
+
+Building on this foundation, this paper presents an ISAC framework that pairs
+NVIDIA Sionna RT with ns-3/5G~LENA into a single co-simulation pipeline, and
+evaluates it both in controlled scenes and in an end-to-end smart-warehouse
+Digital Twin. The contributions of the paper are as follows:
+\begin{itemize}
+  \item It describes the integration of ns-3/5G~LENA with Sionna RT through a
+        ZeroMQ-based propagation/sensing bridge, with a clean role boundary
+        between the two simulators (Section~\ref{sec:methodology}).
+  \item It presents a four-module ISAC architecture comprising a
+        radar-inspired sensing module (Equivalent Reflection Point (ERP)
+        computation, $Z$-gating, Moving-Target Indication (MTI), and DBSCAN
+        clustering), a Kalman--Hungarian multi-target tracking module, a
+        sensing-informed multi-lobe adaptive beamforming module, and a
+        communication module that exports per-path channel state back to
+        ns-3 (Section~\ref{sec:methodology}).
+  \item It validates the framework through a two-stage evaluation: a
+        controlled scene-level study across free-space, warehouse, and
+        urban-micro street-canyon scenes with six ablation variants, and an
+        application-oriented warehouse Digital Twin study under three gNB
+        array sizes (Section~\ref{sec:results}).
+  \item It identifies the operating regimes in which the proposed framework
+        is beneficial, including the $4{\times}4$ gNB configuration as the
+        balanced operating point in the smart-warehouse scenario, and
+        discusses the remaining limitations and future research directions
+        (Sections~\ref{sec:results}--\ref{sec:conclusion}).
+\end{itemize}
+
+The remainder of this paper is organised as follows.
+Section~\ref{sec:methodology} describes the simulation flow, ISAC
+architecture, and the algorithms used in each module.
+Section~\ref{sec:results} presents the controlled-validation and
+warehouse-use-case results together with a discussion of their implications.
+Section~\ref{sec:conclusion} concludes the paper and outlines future work.

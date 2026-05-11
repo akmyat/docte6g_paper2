@@ -1,14 +1,136 @@
 \relax 
-\bibcite{ams}{1}
+\citation{ref:positioning_6g}
+\citation{ref:multimodal_bf}
+\citation{ref:predictive_handover}
+\citation{ref:sionna_rt}
+\citation{ref:ns3sionna}
 \@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {II}Literature Review}{1}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {III}Methodology}{1}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {IV}Results}{1}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {V}Conclusion}{1}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{References}{1}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{Biographies}{1}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{Aung Kaung MYAT}{1}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{Aung Kaung MYAT}{1}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{Aung Kaung MYAT}{1}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{Aung Kaung MYAT}{1}{}\protected@file@percent }
-\gdef \@abspage@last{1}
+\newlabel{sec:introduction}{{I}{1}{}{}{}}
+\citation{ref:multimodal_bf}
+\citation{ref:predictive_handover}
+\citation{ref:positioning_6g}
+\citation{ref:predictive_handover}
+\@writefile{toc}{\contentsline {section}{\numberline {II}Background and Related Work}{2}{}\protected@file@percent }
+\newlabel{sec:literature}{{II}{2}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Benefits of Situation Awareness}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {II-A}1}Beamforming and Beam Management}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {II-A}2}Mobility and Handover Management}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {II-A}3}Reliability and Link Stability}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {II-A}4}Resource Efficiency and Latency Reduction}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Simulation Tooling for ISAC}{2}{}\protected@file@percent }
+\citation{ref:5glena}
+\citation{ref:tr38901}
+\citation{ref:ns3sionna}
+\citation{ref:sionna_rt}
+\@writefile{toc}{\contentsline {section}{\numberline {III}Framework and Methodology}{3}{}\protected@file@percent }
+\newlabel{sec:methodology}{{III}{3}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Smart-Warehouse Use Case}{3}{}\protected@file@percent }
+\newlabel{subsec:warehouse}{{\mbox  {III-A}}{3}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Smart-warehouse Digital Twin: a single gNB serves stationary robots, autonomous mobile robots, sensors, and fixed cameras across three RF regions.}}{3}{}\protected@file@percent }
+\newlabel{fig:warehouse_layout}{{1}{3}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Co-Simulation Architecture}{3}{}\protected@file@percent }
+\newlabel{subsec:architecture}{{\mbox  {III-B}}{3}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Simulation Flow}{3}{}\protected@file@percent }
+\newlabel{subsec:flow}{{\mbox  {III-C}}{3}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces End-to-end co-simulation architecture. Sionna RT supplies geometry-aware physical-layer realism; ns-3/5G LENA consumes it to drive the protocol stack and applications.}}{4}{}\protected@file@percent }
+\newlabel{fig:component_arch}{{2}{4}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}Scene and Mobility Modelling}{4}{}\protected@file@percent }
+\newlabel{subsec:scene}{{\mbox  {III-D}}{4}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces ISAC pipeline: sensing, multi-target tracking, adaptive beamforming, and communication.}}{4}{}\protected@file@percent }
+\newlabel{fig:isac_arch}{{3}{4}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-E}}ISAC Pipeline Overview}{4}{}\protected@file@percent }
+\newlabel{subsec:isac_pipeline}{{\mbox  {III-E}}{4}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-F}}Ray-Tracing-Based Sensing Module}{4}{}\protected@file@percent }
+\newlabel{subsec:sensing}{{\mbox  {III-F}}{4}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {III-F}0a}Pre-processing.}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {III-F}0b}Equivalent Reflection Point (ERP).}{4}{}\protected@file@percent }
+\newlabel{eq:erp}{{3}{4}{}{}{}}
+\citation{ref:dbscan}
+\citation{ref:hungarian}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {III-F}0c}Vertical ($Z$) gating.}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {III-F}0d}Moving-Target-Indication (MTI) filter.}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {III-F}0e}DBSCAN clustering.}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-G}}Multi-Target Tracking Module}{5}{}\protected@file@percent }
+\newlabel{subsec:tracking}{{\mbox  {III-G}}{5}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-H}}Sensing-Informed Adaptive Beamforming}{5}{}\protected@file@percent }
+\newlabel{subsec:beamforming}{{\mbox  {III-H}}{5}{}{}{}}
+\newlabel{eq:multi_lobe}{{10}{5}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-I}}Communication Module}{5}{}\protected@file@percent }
+\newlabel{subsec:comm}{{\mbox  {III-I}}{5}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-J}}Implementation}{6}{}\protected@file@percent }
+\newlabel{subsec:implementation}{{\mbox  {III-J}}{6}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Experimental Evaluation}{6}{}\protected@file@percent }
+\newlabel{sec:results}{{IV}{6}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Evaluation Scope and Methodology}{6}{}\protected@file@percent }
+\newlabel{subsec:eval_method}{{\mbox  {IV-A}}{6}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Experiment I: Controlled Validation Setup}{6}{}\protected@file@percent }
+\newlabel{subsec:exp1_setup}{{\mbox  {IV-B}}{6}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Controlled-validation scenes: free space, warehouse, and urban micro street canyon.}}{6}{}\protected@file@percent }
+\newlabel{fig:exp1_scenes}{{4}{6}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Experiment~I radio and sensing parameters.}}{6}{}\protected@file@percent }
+\newlabel{tab:exp1_radio_params}{{I}{6}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Experiment II: Warehouse Use-Case Setup}{6}{}\protected@file@percent }
+\newlabel{subsec:exp2_setup}{{\mbox  {IV-C}}{6}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Experiment~II radio and sensing parameters.}}{7}{}\protected@file@percent }
+\newlabel{tab:exp2_radio_params}{{II}{7}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Wireless node placement in Experiment~II.}}{7}{}\protected@file@percent }
+\newlabel{tab:exp2_wireless_nodes}{{III}{7}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}Experiment I: Controlled-Validation Results}{7}{}\protected@file@percent }
+\newlabel{subsec:exp1_results}{{\mbox  {IV-D}}{7}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-D}1}Free-space scene}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-D}2}Warehouse scene}{7}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Wired node placement in Experiment~II.}}{7}{}\protected@file@percent }
+\newlabel{tab:exp2_wired_nodes}{{IV}{7}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces Application workload in Experiment~II.}}{7}{}\protected@file@percent }
+\newlabel{tab:exp2_workload}{{V}{7}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-D}3}Urban-micro street-canyon scene}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-D}4}Cross-scene summary}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-E}}Experiment II: Warehouse Use-Case Results}{7}{}\protected@file@percent }
+\newlabel{subsec:exp2_results}{{\mbox  {IV-E}}{7}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-E}1}Application-level KPIs}{7}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {VI}{\ignorespaces Free-space scene---propagation metrics.}}{8}{}\protected@file@percent }
+\newlabel{tab:exp1_fs_prop}{{VI}{8}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VII}{\ignorespaces Free-space scene---sensing metrics.}}{8}{}\protected@file@percent }
+\newlabel{tab:exp1_fs_sense}{{VII}{8}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-E}2}Propagation KPIs}{8}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-E}3}Energy KPIs}{8}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-E}4}Sensing and Localisation}{8}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {VIII}{\ignorespaces Warehouse scene---propagation metrics.}}{8}{}\protected@file@percent }
+\newlabel{tab:exp1_wh_prop}{{VIII}{8}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {IX}{\ignorespaces Warehouse scene---sensing metrics.}}{8}{}\protected@file@percent }
+\newlabel{tab:exp1_wh_sense}{{IX}{8}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-F}}Discussion}{8}{}\protected@file@percent }
+\newlabel{subsec:discussion}{{\mbox  {IV-F}}{8}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {X}{\ignorespaces Urban-micro scene---propagation metrics.}}{9}{}\protected@file@percent }
+\newlabel{tab:exp1_uc_prop}{{X}{9}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XI}{\ignorespaces Urban-micro scene---sensing metrics.}}{9}{}\protected@file@percent }
+\newlabel{tab:exp1_uc_sense}{{XI}{9}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Conclusion and Future Work}{9}{}\protected@file@percent }
+\newlabel{sec:conclusion}{{V}{9}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Per-node-type application metrics under baseline and ISAC for $2\!\times \!2$, $4\!\times \!4$, and $8\!\times \!8$ gNB arrays.}}{9}{}\protected@file@percent }
+\newlabel{fig:exp2_app}{{5}{9}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Per-node-type propagation metrics (path loss and path delay).}}{9}{}\protected@file@percent }
+\newlabel{fig:exp2_prop}{{6}{9}{}{}{}}
+\bibcite{ref:positioning_6g}{1}
+\bibcite{ref:multimodal_bf}{2}
+\bibcite{ref:predictive_handover}{3}
+\bibcite{ref:sionna_rt}{4}
+\bibcite{ref:ns3sionna}{5}
+\bibcite{ref:5glena}{6}
+\bibcite{ref:tr38901}{7}
+\bibcite{ref:dbscan}{8}
+\bibcite{ref:hungarian}{9}
+\bibcite{ref:simu5g}{10}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Average power and consumed energy per node group under baseline and ISAC.}}{10}{}\protected@file@percent }
+\newlabel{fig:exp2_power}{{7}{10}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Warehouse sensing KPIs for $2\!\times \!2$, $4\!\times \!4$, and $8\!\times \!8$ gNB arrays.}}{10}{}\protected@file@percent }
+\newlabel{fig:exp2_sense}{{8}{10}{}{}{}}
+\@writefile{toc}{\contentsline {section}{References}{10}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Localisation-error ECDF and per-configuration distribution.}}{10}{}\protected@file@percent }
+\newlabel{fig:exp2_loc}{{9}{10}{}{}{}}
+\@writefile{toc}{\contentsline {section}{Biographies}{10}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Aung Kaung MYAT}{10}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Hrishikesh Dutta}{10}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Roberto Minerva}{10}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Noel Crespi}{10}{}\protected@file@percent }
+\gdef \@abspage@last{10}

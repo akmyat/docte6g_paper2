@@ -1,2 +1,100 @@
-\section{Literature Review}
-This is literature review.
+\section{Background and Related Work}
+\label{sec:literature}
+
+This section first summarises the gains that situation awareness can bring to
+next-generation access networks, and then discusses the simulation tooling
+that is required to study these gains in a site-specific manner. The latter
+discussion directly motivates the choice of ns-3/5G~LENA combined with Sionna
+RT adopted in this paper.
+
+\subsection{Benefits of Situation Awareness}
+
+Situation awareness refers to the capability of antenna systems to adapt their
+configuration based on contextual information such as UE position, mobility,
+environment geometry, obstacles, and temporal channel variation. Recent
+studies show that incorporating such awareness leads to substantial gains in
+performance, reliability, and efficiency, which can be grouped into four
+families.
+
+\subsubsection{Beamforming and Beam Management}
+Surveys of AI-enabled multimodal beamforming indicate that combining non-RF
+sensors (e.g., LiDAR, radar, GPS) with RF data improves directional accuracy
+and reduces the overhead of beam sweeping and alignment, particularly in
+mmWave bands where misalignment and rapid channel variation degrade
+performance~\cite{ref:multimodal_bf}. Positioning-aided beamforming for mmWave
+communications has specifically shown how location information can relax the
+complexity of beam training and narrow the search space for optimal beams.
+
+\subsubsection{Mobility and Handover Management}
+Context-aware and predictive handover schemes that exploit UE speed,
+direction, hysteresis, trajectory history, and signal-quality metrics reduce
+handover failures, ping-pong effects, and latency. Memory-full context-aware
+predictive mobility management in dual-connectivity 5G networks uses past UE
+trajectory and signal measurements to anticipate handover events and reduce
+signalling overhead~\cite{ref:predictive_handover}. Surveys on AI-aided
+mobility and handover management confirm that machine-learning-based schemes
+can sustain seamless connectivity even in ultra-dense deployments and
+high-mobility regimes.
+
+\subsubsection{Reliability and Link Stability}
+Awareness of obstacles and environmental geometry enables dynamic beam
+switching or alternate-path selection, mitigating the impact of blockages
+especially in higher-frequency bands. Future networks are expected to rely
+heavily on integrated sensing (and positioning) capabilities to improve link
+robustness under dynamic conditions~\cite{ref:positioning_6g}.
+
+\subsubsection{Resource Efficiency and Latency Reduction}
+Predictive mobility and proactive beam adjustment avoid unnecessary sweeping,
+measurement reporting, and control overhead. Deep-learning-based predictive
+handover algorithms have been shown to reduce interruption time and improve
+resource utilisation; in mobile edge-computing systems, joint optimisation of
+connectivity and computation likewise benefits from context-aware decision
+rules~\cite{ref:predictive_handover}.
+
+While the literature confirms substantial improvement potential, it also
+emphasises trade-offs: acquiring accurate context (position, environment
+mapping) has its own overhead, prediction errors can degrade rather than
+improve performance, and privacy and hardware constraints must be addressed.
+
+\subsection{Simulation Tooling for ISAC}
+
+Studying situation-aware ISAC requires a simulation environment that captures
+both end-to-end networking behaviour and site-specific propagation. Two
+simulator families are commonly used as starting points.
+
+\textbf{Simu5G on OMNeT++.} Simu5G provides end-to-end simulation of 5G NR
+spanning application, transport, and network layers, with support for MEC,
+C-V2X, and dual connectivity. However, its PHY relies on stochastic 3GPP
+abstractions, so it lacks site-specific 3D channel modelling and flexible
+MIMO configurations. Most critically for ISAC, the OMNeT++ architecture makes
+integrating GPU-accelerated ray tracers such as Sionna RT onerous: the
+co-simulation bridge requires heavy glue code, Simu5G exposes only
+omnidirectional antennas, and the rich channel outputs computed in Sionna
+(per-path gains, delays, AoA/AoD) cannot be propagated cleanly to the upper
+layers.
+
+\textbf{5G LENA on ns-3.} 5G LENA implements PHY/MAC system-level behaviour
+aligned with 3GPP standards and supports full-stack studies, from packet
+capture and IP transport up to RAN-layer scheduling and application
+flows~\cite{ref:5glena}. By default it uses simplified stochastic channel
+models (e.g., 3GPP TR~38.901~\cite{ref:tr38901}) for path loss, fading, and
+beamforming, and therefore lacks deterministic 3D geometry awareness. However,
+recent work on Ns3Sionna~\cite{ref:ns3sionna} shows that Sionna RT's
+GPU-accelerated ray tracing can be integrated directly into ns-3, yielding
+high-fidelity site-specific channels within the existing ns-3 stack; the
+published Wi-Fi integration serves as a proof of concept and a solid
+technical foundation to extend the same approach to 5G LENA. In this
+ns-3/LENA path, integration is cleaner and more expressive: both sides expose
+MIMO/beamforming configuration, the per-path channel state computed in Sionna
+(complex gains, delays, Doppler, AoA/AoD) can be passed through intact, and
+the resulting scheduling, link adaptation, and application-layer metrics
+faithfully reflect the underlying geometry-driven radio conditions.
+
+For these reasons, the framework presented in this paper pairs 5G LENA with
+Sionna~RT~\cite{ref:sionna_rt} and gives each tool a clear role: Sionna
+handles the physical and link layers (ray tracing, MIMO arrays/beamforming,
+per-path/beam loss and delay), while 5G LENA consumes these geometry-aware
+results to drive the upper layers (RLC/PDCP/IP/applications), so that
+buffering, congestion control, and application QoE evolve in response to the
+same radio conditions produced by Sionna. This division of labour is detailed
+in Section~\ref{sec:methodology}.

@@ -1,2 +1,343 @@
-\section{Methodology}
-This is methodology.
+\section{Framework and Methodology}
+\label{sec:methodology}
+
+This section describes the proposed situation-aware ISAC framework. We first
+present the smart-warehouse use case that motivates the design, then the
+co-simulation architecture and flow, and finally the four functional modules
+of the ISAC pipeline together with their underlying algorithms.
+
+\subsection{Smart-Warehouse Use Case}
+\label{subsec:warehouse}
+
+The chosen reference scenario is a logistics floor served by a single gNB and
+populated by heterogeneous wireless devices: stationary robotic arms along an
+intake conveyor, autonomous mobile robots that ferry parcels to and from
+storage racks, fixed cameras, environmental sensors (temperature, humidity),
+package and rack sensors, and PCs in a control room running monitoring
+applications (Fig.~\ref{fig:warehouse_layout}). The floor exhibits three RF
+regions---a clear line-of-sight zone, a partially obstructed zone with rack
+edges that intermittently shadow links, and a fully obstructed zone (control
+room) separated by walls and dense shelving---which exercise the full range
+of LOS/NLOS, diffraction, and blockage conditions.
+
+\begin{figure}[t]
+  \centering
+  % TODO: extract figure from L4.5 PDF (Figure 3 / overview layout)
+  \includegraphics[width=\columnwidth]{images/warehouse_layout.png}
+  \caption{Smart-warehouse Digital Twin: a single gNB serves stationary
+  robots, autonomous mobile robots, sensors, and fixed cameras across three
+  RF regions.}
+  \label{fig:warehouse_layout}
+\end{figure}
+
+This geometry exercises three progressively more demanding scenarios: a
+stationary baseline, predefined mobile paths through mixed-obstruction zones,
+and dynamic beamforming with position feedback. The scenario also represents
+the broader class of situation-aware use cases identified in our prior work
+(smart home, smart warehouse, vehicular networks): all three share the need
+for proactive beam steering, predictive handover, and blockage-aware
+scheduling. The smart-warehouse case is selected here because it cleanly
+combines device heterogeneity, mobility-driven channel variation, and a
+controlled indoor geometry suitable for ray-traced sensing.
+
+\subsection{Co-Simulation Architecture}
+\label{subsec:architecture}
+
+The end-to-end architecture is shown conceptually in
+Fig.~\ref{fig:component_arch}. A remote host runs the application over
+TCP/UDP/IP and attaches to the EPC via the PGW/SGW node (\texttt{EpcPgwSgwApp}
+over GTP/UDP/IP). On the RAN side, the gNB executes \texttt{EpcEnbApp} and
+the LENA NR stack: packets from the core arrive in GTP/UDP/IP, are scheduled
+by the NR MAC/PHY, and are forwarded to the gNB's
+\texttt{NrGnbNetDevice} for transmission over the air. The UE mirrors this
+stack (application $\to$ TCP/UDP $\to$ IP $\to$ \texttt{NrUeNetDevice}), so
+end-to-end KPIs (throughput, latency, jitter, loss) are measured natively
+within ns-3.
+
+\begin{figure}[t]
+  \centering
+  % TODO: extract figure from L4.5 PDF (Figure 1, Component Architecture)
+  \includegraphics[width=\columnwidth]{images/component_arch.png}
+  \caption{End-to-end co-simulation architecture. Sionna RT supplies
+  geometry-aware physical-layer realism; ns-3/5G LENA consumes it to drive
+  the protocol stack and applications.}
+  \label{fig:component_arch}
+\end{figure}
+
+Radio propagation is outsourced to a dedicated Sionna ``channel server''
+co-located with the RAN. Given the true 3D scene and configured MIMO arrays,
+Sionna computes time-varying path sets (per-path gains, delays, Doppler,
+AoA/AoD) and returns effective propagation loss and delay---and, when needed,
+per-RB SINR estimates---through a ZeroMQ-based adapter. The gNB therefore
+performs link adaptation and scheduling against geometry-aware channels that
+reflect LOS/NLOS transitions, diffraction, blockage, and beamforming, while
+the upper layers react naturally to the resulting radio dynamics.
+
+\subsection{Simulation Flow}
+\label{subsec:flow}
+
+In ns-3 we first define the gNB and UE nodes, attach mobility models and
+antenna/array configurations, and select the application mix (e.g.,
+constant-bit-rate, VoIP, video streaming). The initial positions, MIMO
+settings, and application parameters are sent to the Sionna server. Sionna
+has already created the 3D scene and an occupancy map, and waits for
+requests; upon receiving ns-3's parameters, it initialises the ray-tracing
+environment, sets Tx/Rx poses and MIMO patterns, and enters a request/response
+loop. Whenever ns-3 asks for channel state, Sionna updates node poses,
+estimates paths via ray tracing, optionally adapts the transmit radiation
+pattern to the current UE positions, and returns time-aligned propagation
+loss and delay reflecting LOS/NLOS transitions, multipath, diffraction, and
+blockage. ns-3 ingests these values at the PHY/MAC, performs link adaptation
+and scheduling, and the upper layers evolve naturally over those channels.
+
+\subsection{Scene and Mobility Modelling}
+\label{subsec:scene}
+
+The 3D scene is loaded from a Blender-exported Mitsuba XML file and
+instantiated three times in Sionna RT,
+\(\mathcal{S} = \{\mathcal{S}_{\mathrm{sense}},\; \mathcal{S}_{\mathrm{comm}},\;
+\mathcal{S}_{\mathrm{bf}}\}\). The three scenes share geometry but differ in
+runtime use: $\mathcal{S}_{\mathrm{sense}}$ uses a co-located transmit and
+receive array as a monostatic radar; $\mathcal{S}_{\mathrm{comm}}$ uses the
+baseline transmitter to compute per-link channel state between the gNB and
+UEs; and $\mathcal{S}_{\mathrm{bf}}$ uses a custom multi-lobe radiation
+pattern computed from the sensing output. Maintaining three scene instances
+avoids repeatedly mutating a single Sionna object between modes.
+
+Mobility is handled by a headless PyBullet backend. Static geometry is loaded
+as a mesh, while dynamic objects are loaded as box collision bodies derived
+from the bounding box of each mesh. For an object whose mesh occupies
+$\mathbf{v}_{\min}=[x_{\min},y_{\min},z_{\min}]^{\!\top}$ and
+$\mathbf{v}_{\max}=[x_{\max},y_{\max},z_{\max}]^{\!\top}$, the half-extents
+used for collision modelling are
+$\mathbf{h} = \tfrac{1}{2}(\mathbf{v}_{\max}-\mathbf{v}_{\min})$. Because
+PyBullet operates on the geometric centre while users specify positions at
+the base, the centre position is recovered as
+\(\mathbf{p}_{\mathrm{centre}} = \mathbf{p}_{\mathrm{bottom}} + [0,0,h_z]^{\!\top}.\)
+
+Path planning uses the A$^{\star}$ algorithm on a 2D grid of resolution $g$.
+Each cell $n$ is scored by $f(n)=g(n)+h(n)$, with $g(n)$ the cost-so-far
+(straight moves cost $g$, diagonals cost $g\sqrt{2}$) and
+$h(n)=\sqrt{(x_n-x_d)^2+(y_n-y_d)^2}$ the Euclidean heuristic to the
+destination. Candidate paths are validated against static and dynamic
+collisions before commitment. Once accepted, a path is stored as an ordered
+list of waypoints $\{w_0,\ldots,w_K\}$, and at simulation time $t \ge t_0$
+the agent's traversed length is $s(t)=v\,(t-t_0)$. Defining
+$D_0=0$ and $D_k=\sum_{i=1}^{k}\|w_i-w_{i-1}\|_2$, the instantaneous position
+on segment $[w_k,w_{k+1}]$ when $D_k\le s(t)\le D_{k+1}$ is obtained by
+linear interpolation,
+\begin{equation}
+  \mathbf{p}(t) = w_k + \alpha\,(w_{k+1}-w_k),
+  \qquad
+  \alpha = \frac{s(t)-D_k}{D_{k+1}-D_k}.
+\end{equation}
+
+\subsection{ISAC Pipeline Overview}
+\label{subsec:isac_pipeline}
+
+The ISAC pipeline (Fig.~\ref{fig:isac_arch}) consists of four modules
+executed in sequence at every sensing tick: a sensing module that converts
+raw ray-tracing output into 3D detections, a multi-target tracking module
+that stabilises detections into trajectories, an adaptive beamforming module
+that synthesises a custom transmit pattern from the confirmed tracks, and a
+communication module that re-runs ray tracing under the new pattern to
+produce the per-link channel state delivered to ns-3.
+
+\begin{figure}[t]
+  \centering
+  % TODO: extract figure from L4.7 PDF (Figure 1, ISAC overview)
+  \includegraphics[width=\columnwidth]{images/isac_arch.png}
+  \caption{ISAC pipeline: sensing, multi-target tracking, adaptive
+  beamforming, and communication.}
+  \label{fig:isac_arch}
+\end{figure}
+
+\subsection{Ray-Tracing-Based Sensing Module}
+\label{subsec:sensing}
+
+The sensing module transforms the ray-traced multipath output into discrete
+3D object candidates, following a radar-like reasoning.
+
+\paragraph{Pre-processing.}
+For each path $\ell$, the average path power is computed from the complex
+coefficients,
+\(\overline{P_\ell} = \tfrac{1}{|I|}\sum_{i\in I}|a_{\ell,i}|^2\),
+together with the average delay
+$\overline{\tau_\ell}=\tfrac{1}{|I|}\sum_{i\in I}|\tau_{\ell,i}|$ and the
+average angles $\overline{\theta_\ell}$ and $\overline{\phi_\ell}$. Paths
+with $\overline{\tau_\ell}\le 10^{-9}$~s are dropped. The remaining delays
+are converted to range, $L_\ell = c\,\overline{\tau_\ell}$.
+A distance-adaptive power threshold avoids over-suppressing distant returns,
+\begin{equation}
+  s_\ell = \max\!\left(\frac{L_\ell}{10},1\right)^{\!1.1},
+  \qquad
+  P_{\mathrm{th},\ell} = \frac{P_{\min}}{s_\ell},
+\end{equation}
+and only paths with $\overline{P_\ell}>P_{\mathrm{th},\ell}$ are retained.
+Finally, each surviving angle pair is converted to a 3D unit direction,
+$\mathbf{d}_\ell=[\sin\theta_\ell\cos\phi_\ell,\sin\theta_\ell\sin\phi_\ell,
+\cos\theta_\ell]^{\!\top}$.
+
+\paragraph{Equivalent Reflection Point (ERP).}
+Each surviving path is mapped to a single 3D point,
+\begin{equation}
+  \mathbf{p}_\ell^{\mathrm{ERP}}
+  = \mathbf{p}_{\mathrm{gNB}}
+  + \!\left(\frac{L_\ell}{2} + \delta\right)\mathbf{d}_\ell,
+  \label{eq:erp}
+\end{equation}
+where $\mathbf{p}_{\mathrm{gNB}}$ is the gNB location, $L_\ell/2$ accounts
+for the round-trip in the monostatic case, and $\delta$ is a small
+calibration offset that mitigates the bias introduced when reflection occurs
+on a surface rather than at the object's centre.
+
+\paragraph{Vertical ($Z$) gating.}
+Floor and ceiling reflections produce ghost ERPs that lie outside the height
+range of physical targets. A simple gate
+\(z_{\min}\le z_\ell^{\mathrm{ERP}}\le z_{\max}\),
+calibrated from the target mesh, removes them.
+
+\paragraph{Moving-Target-Indication (MTI) filter.}
+The first frame is stored as a static background point cloud
+$\mathcal{B}=\{\mathbf{b}_1,\ldots,\mathbf{b}_M\}$. For a new ERP
+$\mathbf{p}$, the nearest-background distance is
+$d_{\mathcal{B}}(\mathbf{p})=\min_{\mathbf{b}\in\mathcal{B}}\|\mathbf{p}-\mathbf{b}\|_2$,
+and only points satisfying $d_{\mathcal{B}}(\mathbf{p})>d_{\mathrm{MTI}}$
+are kept. The nearest-neighbour search is implemented with a $k$-d tree.
+
+\paragraph{DBSCAN clustering.}
+A real object generates several nearby ERPs, so the surviving cloud is
+clustered with DBSCAN~\cite{ref:dbscan}, which does not require the number of
+objects in advance, ignores isolated noise, and works well on locally dense
+point clouds. For each cluster $\mathcal{C}_k$, the strongest point is taken
+as the representative position, $\mathbf{z}_k=\mathbf{p}_{n^\ast}$ with
+$n^\ast=\arg\max_{n\in\mathcal{C}_k}\overline{P_n}$, and the cluster power
+is $P_k=\sum_{n\in\mathcal{C}_k}\overline{P_n}$. Candidates are sorted by
+$P_k$ and pruned: if $\|\mathbf{z}_i-\mathbf{z}_j\|_2 < d_{\mathrm{sep}}$,
+the weaker is dropped, so the same physical object is not reported twice.
+At most $N_{\max}$ candidates are emitted, each as a tuple
+$\mathcal{D}_k=(k,\mathbf{z}_k,P_k)$.
+
+\subsection{Multi-Target Tracking Module}
+\label{subsec:tracking}
+
+Raw detections are noisy and intermittent, so they are stabilised by a
+constant-velocity Kalman filter with global Hungarian data
+association~\cite{ref:hungarian}.
+
+Each target is described by a six-dimensional state
+$\mathbf{x}_t = [x_t,y_t,z_t,v_{x,t},v_{y,t},v_{z,t}]^{\!\top}$ that follows
+$\mathbf{x}_{t|t-1} = F\mathbf{x}_{t-1|t-1} + \mathbf{w}_t$ with the
+constant-velocity transition matrix
+\begin{equation}
+  F =
+  \begin{bmatrix}
+    1 & 0 & 0 & \Delta t & 0 & 0 \\
+    0 & 1 & 0 & 0 & \Delta t & 0 \\
+    0 & 0 & 1 & 0 & 0 & \Delta t \\
+    0 & 0 & 0 & 1 & 0 & 0 \\
+    0 & 0 & 0 & 0 & 1 & 0 \\
+    0 & 0 & 0 & 0 & 0 & 1
+  \end{bmatrix},
+\end{equation}
+and a position-only measurement model $\mathbf{z}_t = H\mathbf{x}_t +
+\mathbf{n}_t$ with $H=[I_3\;\;\mathbf{0}_{3\times 3}]$. New tracks are
+initialised at the detected position with zero velocity. The filter uses
+$P_0=5\,I_6$, $Q=0.1\,I_6$, and $R=1.0\,I_3$, encoding moderate uncertainty
+in the initial state, limited deviation from constant velocity, and
+non-negligible sensing noise. The default sampling interval is
+$\Delta t = 1.0$.
+
+At each frame, all active tracks are propagated by
+$\hat{\mathbf{x}}_{t|t-1}=F\hat{\mathbf{x}}_{t-1|t-1}$ and
+$P_{t|t-1}=FP_{t-1|t-1}F^{\!\top}+Q$. The current detection set is
+de-duplicated by removing any detection within $d_{\mathrm{birth}}$ of a
+stronger one. A cost matrix $C\in\mathbb{R}^{N_T\times N_D}$ is then built,
+with entries $c_{ij}=\|\hat{\mathbf{p}}_{t|t-1}^{(i)}-\mathbf{z}_{t,j}\|_2$;
+entries above the gating threshold $c_{\max}$ are replaced by a large
+penalty (1000). The optimal global assignment is obtained by solving
+\(\pi^\star = \arg\min_{\pi}\sum_{(i,j)\in\pi}c_{ij}\)
+with the Hungarian algorithm. For each accepted pair, a standard Kalman
+update is performed,
+\begin{align}
+  \mathbf{y}_t &= \mathbf{z}_{t,j}-H\hat{\mathbf{x}}_{t|t-1}, \\
+  S_t &= HP_{t|t-1}H^{\!\top}+R, \\
+  K_t &= P_{t|t-1}H^{\!\top}S_t^{-1}, \\
+  \hat{\mathbf{x}}_{t|t} &= \hat{\mathbf{x}}_{t|t-1}+K_t\mathbf{y}_t, \\
+  P_{t|t} &= (I-K_tH)P_{t|t-1}.
+\end{align}
+
+Unmatched tracks have their missed-frame counter incremented, so short-term
+sensing failures (occlusion, weak returns, detector dropout) are tolerated
+without immediate deletion. A track is deleted when $m_i\ge M_{\max}$, and a
+detection only spawns a new track when its distance to every existing track
+exceeds $d_{\mathrm{birth}}$. A track is exported only after it has reached a
+minimum age $A_{\min}$ and accumulated displacement
+$\|\hat{\mathbf{p}}_i-\mathbf{p}_{\mathrm{start},i}\|_2 > d_{\min}$,
+suppressing short-lived false tracks and clutter.
+
+\subsection{Sensing-Informed Adaptive Beamforming}
+\label{subsec:beamforming}
+
+Once one or more tracks are confirmed, their estimated positions become
+steering points for the communication transmission. For each tracked target
+at $\mathbf{p}_m$, the steering vector relative to the gNB is
+$\mathbf{u}_m = \mathbf{p}_m-\mathbf{p}_{\mathrm{gNB}}$, with spherical
+angles
+\(\theta_m = \arccos\!\big(u_{m,z}/\|\mathbf{u}_m\|_2\big)\),
+$\phi_m = \mathrm{atan2}(u_{m,y},u_{m,x})$.
+
+Rather than computing a digital precoder, the framework synthesises a custom
+antenna element pattern with one Gaussian lobe per tracked target. Let
+$\hat{\mathbf{r}}(\theta,\phi)$ denote the unit direction toward the
+observation angle and $\hat{\mathbf{r}}(\theta_m,\phi_m)$ the steering
+direction toward target $m$. The angular mismatch is
+$\psi_m(\theta,\phi)=\arccos\!\big(\hat{\mathbf{r}}(\theta,\phi)^{\!\top}
+\hat{\mathbf{r}}(\theta_m,\phi_m)\big)$. With beamwidth parameter
+$\sigma=\mathrm{deg2rad}(W)$, the multi-lobe gain is
+\begin{equation}
+  G(\theta,\phi)
+  = \sum_{m=1}^{M}\exp\!\left(-\frac{\psi_m(\theta,\phi)^2}{2\sigma^2}\right).
+  \label{eq:multi_lobe}
+\end{equation}
+An array-level gain compensation $\gamma=200$ is applied and the pattern is
+converted to a vertically polarised field amplitude,
+\begin{equation}
+  A_\theta(\theta,\phi) = \sqrt{\max(G(\theta,\phi),10^{-6})}\,\gamma,
+  \quad A_\phi(\theta,\phi) = 0.
+\end{equation}
+The pattern is regenerated only when the rounded target-position signature
+changes and a minimum update interval has elapsed, which prevents beam churn
+under small target motion.
+
+\subsection{Communication Module}
+\label{subsec:comm}
+
+With the updated multi-lobe pattern installed, the path solver executes a
+ray-tracing sweep to enumerate all viable paths between the transmitter and
+the UEs. For each viable path, the raw Channel Frequency Response (CFR) is
+extracted across multiple OFDM subcarriers and decoupled into a scalar
+pathloss (distance attenuation) and a normalised matrix CFR
+(spatial/frequency-selective fading), to match ns-3's distinct
+\texttt{PropagationLoss} and \texttt{PhasedArray} model interfaces. The
+delay, real and imaginary parts of the normalised CFR, absolute pathloss,
+and LoS flag are packaged into per-Tx-Rx propagation records and exported to
+ns-3. To avoid recomputation, ns-3 caches the Sionna response over a short
+interval (e.g., $80$~ms in the warehouse runs).
+
+\subsection{Implementation}
+\label{subsec:implementation}
+
+The sensing, tracking, and beamforming modules are implemented in
+\texttt{sionnart.py}, while the mobility module is implemented in
+\texttt{mobility.py}. To interoperate with ns-3, both Python modules are
+embedded in C++ via \texttt{sionna-py-embed.\{h,cc\}} and
+\texttt{mobility-py-embed.\{h,cc\}}, which import the Python functions and
+invoke them on demand. Situation awareness is enabled by setting the
+\texttt{sa\_enable} flag at scenario construction; when enabled, an
+additional query interface
+\verb|SionnaGetDetectedObjects(double since_time_s)| exposes confirmed ISAC
+detections to ns-3 application logic. Each detection record contains the
+simulation timestamp, a stable track identifier, and the estimated 3D world
+position, allowing IoT applications to consume the gNB's sensing output for
+situation-aware decision-making.
