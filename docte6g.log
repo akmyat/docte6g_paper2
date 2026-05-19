@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.5.1)  11 MAY 2026 10:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.5.1)  19 MAY 2026 09:54
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -302,218 +302,92 @@ File: omsptm.fd
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <11> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 29.
  (./00_Abstract/abstract.tex
-LaTeX Font Info:    Trying to load font information for U+msa on input line 14.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 19.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 14.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 19.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)) (./01_Introduction/introduction.tex [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}
-
-
-]
-Underfull \hbox (badness 2573) in paragraph at lines 67--74
-\OT1/ptm/m/n/10 Hungarian multi-target track-ing mod-ule, a sensing-
+)) (./03_Methodology/methodology.tex (./03_Methodology/01_system_architecture.tex
+Underfull \hbox (badness 2302) in paragraph at lines 4--6
+[]\OT1/ptm/m/n/10 The pro-posed In-te-grated Sens-ing and Com-mu-ni-ca-tion
  []
 
-) (./02_Literature_Review/literature_review.tex [2]) (./03_Methodology/methodology.tex
-<images/warehouse_layout.png, id=20, 401.5pt x 240.9pt>
-File: images/warehouse_layout.png Graphic file (type png)
-<use images/warehouse_layout.png>
-Package pdftex.def Info: images/warehouse_layout.png  used on input line 26.
-(pdftex.def)             Requested size: 252.0pt x 151.20538pt.
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 48.
- (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
-File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-)
-<images/component_arch.png, id=21, 401.5pt x 240.9pt>
-File: images/component_arch.png Graphic file (type png)
-<use images/component_arch.png>
-Package pdftex.def Info: images/component_arch.png  used on input line 60.
-(pdftex.def)             Requested size: 252.0pt x 151.20538pt.
-
-Underfull \hbox (badness 2951) in paragraph at lines 67--75
-\OT1/ptm/m/n/10 schedul-ing against geometry-aware chan-nels that re-flect
- []
-
-[3 <./images/warehouse_layout.png (PNG copy)>]
-<images/isac_arch.png, id=26, 401.5pt x 240.9pt>
-File: images/isac_arch.png Graphic file (type png)
-<use images/isac_arch.png>
-Package pdftex.def Info: images/isac_arch.png  used on input line 149.
-(pdftex.def)             Requested size: 252.0pt x 151.20538pt.
-
-Underfull \hbox (badness 2050) in paragraph at lines 162--171
-[] [][] \OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 a[]\OMS/cmsy/m/n/10 j[]$\OT1/ptm/m/n/10 , to-gether with the av-er-age de-lay $[] \OT1/cmr/m/n/10 =
- []
-
-[4 <./images/component_arch.png (PNG copy)> <./images/isac_arch.png (PNG copy)>]
-Underfull \hbox (badness 4242) in paragraph at lines 201--207
-\OT1/ptm/m/n/10 is stored as a static back-ground point cloud $\OMS/cmsy/m/n/10 B \OT1/cmr/m/n/10 =
- []
-
-LaTeX Font Info:    Trying to load font information for OMS+pcr on input line 334.
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/omspcr.fd
-File: omspcr.fd 
-)
-LaTeX Font Info:    Font shape `OMS/pcr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 334.
-)
-Underfull \hbox (badness 10000) in paragraph at lines 331--38
-[]\OT1/ptm/m/n/10 The sens-ing, track-ing, and beam-form-ing mod-ules
- []
+<images/isac_pipeline_architecture.png, id=1, 1014.79124pt x 693.59125pt>
+File: images/isac_pipeline_architecture.png Graphic file (type png)
+<use images/isac_pipeline_architecture.png>
+Package pdftex.def Info: images/isac_pipeline_architecture.png  used on input line 18.
+(pdftex.def)             Requested size: 252.0pt x 172.23322pt.
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 331--38
-\OT1/ptm/m/n/10 are im-ple-mented in \OT1/pcr/m/n/10 sionnart.py\OT1/ptm/m/n/10 , while the
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 331--38
-\OT1/ptm/m/n/10 mo-bil-ity mod-ule is im-ple-mented in \OT1/pcr/m/n/10 mobility.py\OT1/ptm/m/n/10 .
- []
-
-
-Underfull \hbox (badness 5403) in paragraph at lines 331--38
-\OT1/ptm/m/n/10 To in-ter-op-er-ate with ns-3, both Python mod-ules are
- []
-
-
-Overfull \hbox (18.0pt too wide) in paragraph at lines 331--38
-[][]\OT1/pcr/m/n/10 SionnaGetDetectedObjects(double since_time_s)
- []
-
-[5] (./04_Results/results.tex
-Underfull \hbox (badness 2269) in paragraph at lines 4--10
-[]\OT1/ptm/m/n/10 This sec-tion eval-u-ates the pro-posed frame-work. Sec-
- []
-
-<images/exp1_scenes.png, id=41, 401.5pt x 240.9pt>
+ <./images/isac_pipeline_architecture.png>]) (./03_Methodology/02_ray_tracing_based_sensing_module.tex (./03_Methodology/02_ray_tracing_based_sensing_module/00_pre_processing.tex) (./03_Methodology/02_ray_tracing_based_sensing_module/01_equivalent_reflection_point.tex) (./03_Methodology/02_ray_tracing_based_sensing_module/02_z_filtering.tex) (./03_Methodology/02_ray_tracing_based_sensing_module/03_moving_target_indication_filter.tex) (./03_Methodology/02_ray_tracing_based_sensing_module/04_dbscan_filtering.tex [2])) (./03_Methodology/03_multi_target_tracking_module.tex) [3] (./03_Methodology/04_sensing_informed_beamforming.tex)) (./04_Results/results.tex (./04_Results/01_controlled_validation.tex
+<images/exp1_scenes.png, id=33, 843.15pt x 432.61626pt>
 File: images/exp1_scenes.png Graphic file (type png)
 <use images/exp1_scenes.png>
-Package pdftex.def Info: images/exp1_scenes.png  used on input line 49.
-(pdftex.def)             Requested size: 252.0pt x 151.20538pt.
-
-Underfull \hbox (badness 6300) in paragraph at lines 94--102
-[]\OT1/ptm/m/n/10 The ware-house ex-per-i-ment is im-ple-mented as two
+Package pdftex.def Info: images/exp1_scenes.png  used on input line 12.
+(pdftex.def)             Requested size: 252.0pt x 129.29738pt.
+<images/exp1_trajectories.png, id=34, 843.15pt x 365.365pt>
+File: images/exp1_trajectories.png Graphic file (type png)
+<use images/exp1_trajectories.png>
+Package pdftex.def Info: images/exp1_trajectories.png  used on input line 25.
+(pdftex.def)             Requested size: 252.0pt x 109.19778pt.
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 31.
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+) [4 <./images/exp1_scenes.png>] (./04_Results/01_controlled_validation/01_free_space_validation.tex) (./04_Results/01_controlled_validation/02_warehouse_validation.tex)) (./04_Results/02_evaluation_of_warehouse_usecase.tex [5 <./images/exp1_trajectories.png>]
+Underfull \hbox (badness 1603) in paragraph at lines 32--40
+\OT1/ptm/m/n/10 and package-sensor through-put drops from $\OT1/cmr/m/n/10 22\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 990$ \OT1/ptm/m/n/10 kbps
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 94--102
-\OT1/ptm/m/n/10 ns-3 sce-nar-ios, \OT1/pcr/m/n/10 warehouse-sionna \OT1/ptm/m/n/10 (base-line) and
- []
-
-
-Underfull \hbox (badness 3128) in paragraph at lines 94--102
-\OT1/pcr/m/n/10 warehouse-isac \OT1/ptm/m/n/10 (situation-awareness en-abled), which
- []
-
-
-Underfull \hbox (badness 2617) in paragraph at lines 94--102
-\OT1/ptm/m/n/10 Sionna-backed chan-nel helper, proportional-fair OFDMA
- []
-
-
-Overfull \hbox (21.21353pt too wide) in paragraph at lines 137--150
- [][] 
- []
-
-[6 <./images/exp1_scenes.png (PNG copy)>]
-Underfull \hbox (badness 3078) in paragraph at lines 245--252
-\OT1/ptm/m/n/10 at very low false-positive rates ($\OMS/cmsy/m/n/10 ^^Y \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 018$\OT1/ptm/m/n/10 --$\OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 019$\OT1/ptm/m/n/10 ) and
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 245--252
-\OT1/ptm/m/n/10 tightly grouped po-si-tion er-rors ($\OT1/cmr/m/n/10 1\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 12$\OT1/ptm/m/n/10 --$\OT1/cmr/m/n/10 1\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 15$ \OT1/ptm/m/n/10 m). The
- []
-
-
-Underfull \hbox (badness 5036) in paragraph at lines 245--252
-\OT1/pcr/m/n/10 isac_no_tracker \OT1/ptm/m/n/10 vari-ant raises raw de-tec-tion rate
- []
-
-
-Underfull \hbox (badness 1648) in paragraph at lines 245--252
-\OT1/ptm/m/n/10 to $\OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 970$ \OT1/ptm/m/n/10 but in-creases the false-positive rate to $\OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 176$\OT1/ptm/m/n/10 ,
- []
-
-
-Underfull \hbox (badness 2126) in paragraph at lines 254--266
- \OT1/ptm/m/it/10 2) Ware-house scene: [][] \OT1/ptm/m/n/10 Ta-bles VIII[] and IX[] re-port the
- []
-
-
-Underfull \hbox (badness 3364) in paragraph at lines 306--320
-\OT1/ptm/m/n/10 and Rx power $\OMS/cmsy/m/n/10 ^^Y ^^@\OT1/cmr/m/n/10 26\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 83$ \OT1/ptm/m/n/10 dBm in all cases ex-cept
- []
-
-[7]
-<images/exp2_app.png, id=54, 401.5pt x 240.9pt>
+<images/exp2_app.png, id=45, 1264.725pt x 774.895pt>
 File: images/exp2_app.png Graphic file (type png)
 <use images/exp2_app.png>
-Package pdftex.def Info: images/exp2_app.png  used on input line 392.
-(pdftex.def)             Requested size: 252.0pt x 151.20538pt.
-<images/exp2_prop.png, id=55, 401.5pt x 240.9pt>
+Package pdftex.def Info: images/exp2_app.png  used on input line 43.
+(pdftex.def)             Requested size: 252.0pt x 154.39688pt.
+<images/exp2_prop.png, id=46, 910.602pt x 344.0052pt>
 File: images/exp2_prop.png Graphic file (type png)
 <use images/exp2_prop.png>
-Package pdftex.def Info: images/exp2_prop.png  used on input line 414.
-(pdftex.def)             Requested size: 252.0pt x 151.20538pt.
-<images/exp2_power.png, id=56, 401.5pt x 240.9pt>
+Package pdftex.def Info: images/exp2_prop.png  used on input line 74.
+(pdftex.def)             Requested size: 252.0pt x 95.19748pt.
+[6 <./images/exp2_app.png (PNG copy)> <./images/exp2_prop.png>]
+<images/exp2_power.png, id=51, 1264.725pt x 774.895pt>
 File: images/exp2_power.png Graphic file (type png)
 <use images/exp2_power.png>
-Package pdftex.def Info: images/exp2_power.png  used on input line 435.
-(pdftex.def)             Requested size: 252.0pt x 151.20538pt.
-<images/exp2_sense.png, id=57, 401.5pt x 240.9pt>
+Package pdftex.def Info: images/exp2_power.png  used on input line 101.
+(pdftex.def)             Requested size: 252.0pt x 154.39688pt.
+<images/exp2_sense.png, id=52, 1264.725pt x 834.11626pt>
 File: images/exp2_sense.png Graphic file (type png)
 <use images/exp2_sense.png>
-Package pdftex.def Info: images/exp2_sense.png  used on input line 455.
-(pdftex.def)             Requested size: 252.0pt x 151.20538pt.
-<images/exp2_loc_err.png, id=58, 401.5pt x 240.9pt>
+Package pdftex.def Info: images/exp2_sense.png  used on input line 129.
+(pdftex.def)             Requested size: 252.0pt x 166.19664pt.
+<images/exp2_loc_err.png, id=53, 1264.725pt x 405.515pt>
 File: images/exp2_loc_err.png Graphic file (type png)
 <use images/exp2_loc_err.png>
-Package pdftex.def Info: images/exp2_loc_err.png  used on input line 473.
-(pdftex.def)             Requested size: 252.0pt x 151.20538pt.
+Package pdftex.def Info: images/exp2_loc_err.png  used on input line 145.
+(pdftex.def)             Requested size: 252.0pt x 80.79836pt.
+)) (./05_Conclusion/conclusion.tex [7 <./images/exp2_power.png (PNG copy)> <./images/exp2_sense.png (PNG copy)> <./images/exp2_loc_err.png (PNG copy)>]) (./06_Bibliography/bibliography.tex) [8
 
-Underfull \hbox (badness 2042) in paragraph at lines 481--490
-\OT1/ptm/m/n/10 work be-haves con-sis-tently but in a strongly condition-
- []
-
-[8]) (./05_Conclusion/conclusion.tex) [9 <./images/exp2_app.png (PNG copy)> <./images/exp2_prop.png (PNG copy)>] (./06_Bibliography/bibliography.tex) (./07_Biography/biography.tex
-<images/Aung_Kaung_MYAT.jpg, id=65, 1204.5pt x 1806.75pt>
-File: images/Aung_Kaung_MYAT.jpg Graphic file (type jpg)
-<use images/Aung_Kaung_MYAT.jpg>
-Package pdftex.def Info: images/Aung_Kaung_MYAT.jpg  used on input line 1.
-(pdftex.def)             Requested size: 60.21014pt x 90.31522pt.
-File: images/Aung_Kaung_MYAT.jpg Graphic file (type jpg)
-<use images/Aung_Kaung_MYAT.jpg>
-Package pdftex.def Info: images/Aung_Kaung_MYAT.jpg  used on input line 1.
-(pdftex.def)             Requested size: 60.21014pt x 90.31522pt.
-
-Underfull \hbox (badness 1769) in paragraph at lines 1--6
-[]\OT1/ptm/b/n/8 Aung Kaung MYAT \OT1/ptm/m/n/8 is a PhD re-searcher at
- []
-
-) [10 <./images/exp2_power.png (PNG copy)> <./images/exp2_sense.png (PNG copy)> <./images/exp2_loc_err.png (PNG copy)> <./images/Aung_Kaung_MYAT.jpg>] (./docte6g.aux)
+] (./docte6g.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 4689 strings out of 476106
- 82469 string characters out of 5793934
- 1965975 words of memory out of 5000000
- 26597 multiletter control sequences out of 15000+600000
- 600252 words of font info for 118 fonts, out of 8000000 for 9000
+ 4721 strings out of 476106
+ 87415 string characters out of 5793934
+ 1952975 words of memory out of 5000000
+ 26604 multiletter control sequences out of 15000+600000
+ 599145 words of font info for 117 fonts, out of 8000000 for 9000
  63 hyphenation exceptions out of 8191
- 57i,11n,65p,336b,336s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on docte6g.pdf (10 pages, 9172301 bytes).
+ 57i,10n,65p,469b,296s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on docte6g.pdf (8 pages, 1219623 bytes).
 PDF statistics:
- 177 PDF objects out of 1000 (max. 8388607)
- 101 compressed objects within 2 object streams
+ 153 PDF objects out of 1000 (max. 8388607)
+ 88 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 63 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 
