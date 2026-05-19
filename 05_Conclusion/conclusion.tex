@@ -1,44 +1,42 @@
 \section{Conclusion and Future Work}
 \label{sec:conclusion}
 
-This paper presented a situation-aware Integrated Sensing and Communication
-(ISAC) framework that couples NVIDIA Sionna RT with ns-3/5G~LENA into a
-single co-simulation pipeline, and evaluated it through two complementary
-studies. A controlled validation across free-space, warehouse, and
-urban-micro street-canyon scenes confirmed that the framework responds to
-scene geometry and configuration changes in a physically meaningful way: it
-exhibits the expected upper-bound behaviour in free space, preserves
-communication gains while degrading sensing in cluttered indoor settings,
-and decouples communication stability from sensing stability under
-structured outdoor multipath. A warehouse Digital-Twin study under three gNB
-array sizes then showed that the same framework remains beneficial in a
-realistic deployment-oriented setting once sufficient array support is
-available. The $4\!\times\!4$ configuration emerged as the balanced
-operating point: it improves the dominant robot-related communication and
-sensing behaviour without incurring the substantially higher gNB power
-required by the $8\!\times\!8$ configuration.
+This paper presented a situation-aware ISAC co-simulation framework for 6G
+smart warehouses. The framework connects Sionna RT with ns-3/5G~LENA so that
+site-specific ray tracing, sensing, tracking, adaptive beamforming, and NR
+communication can be evaluated in one workflow. The sensing module converts
+ray-traced reflections into target detections, the tracking module stabilizes
+those detections over time, and the beamforming module uses the confirmed
+target positions to update the communication link.
 
-Several limitations remain. First, sensing robustness degrades in cluttered
-environments, particularly with respect to missed detections and track
-continuity. Second, the communication benefit of ISAC is not uniform across
-device classes, so application-level gains remain partly workload-dependent.
-Third, the warehouse sensing evaluation is derived from exported detections
-and reconstructed opportunity definitions rather than from a complete
-tracker-side confusion matrix. These limitations do not invalidate the
-present results, but they delimit the claims supported by the current
-implementation.
+The controlled validation shows that the framework behaves as expected when
+the scene becomes more difficult. In free space, visibility is favorable, so
+ISAC reduces the mean path loss by up to about $18$~dB and keeps the
+false-positive rate low when tracking is enabled. In the warehouse scene, ISAC
+still improves propagation, with the widest tested beam giving the strongest
+path-loss reduction. However, racks, walls, and partial visibility reduce the
+detection rate and increase missed detections. This means that the main
+warehouse sensing problem is not pointwise localization accuracy after a target
+is detected, but maintaining complete and continuous detections in clutter. The
+ablation results also show two important trade-offs: deeper propagation gives
+only a small detection gain and can add false positives, while removing the
+tracker increases raw detections but makes the output much less clean.
 
-Future work will proceed along three directions. The first is algorithmic
-refinement of the sensing and tracking pipeline for cluttered environments,
-including more robust association, filtering, and false-track suppression.
-The second is an expanded experimental campaign with additional seeds,
-traffic regimes, and scene conditions, so that the conclusions can be
-supported by broader statistical evidence. The third is deeper optimisation
-of the communication--sensing control logic, particularly for beam
-management. The present evaluation indicates that position-based
-beamforming alone is not sufficient to guarantee the best operating point
-across all conditions; a more effective approach is expected to combine
-position information with channel state information (CSI) so that beam
-selection exploits both geometric awareness and instantaneous channel
-realisations. Together, these steps would extend the framework from a
-proof of viability toward a deployment-ready ISAC evaluation environment.
+The end-to-end warehouse Digital Twin confirms that these controlled findings
+matter at application level. The $2{\times}2$ gNB array is not sufficient for a
+stable ISAC gain because robot traffic becomes less reliable. The $4{\times}4$
+array gives the best operating point: it improves robot-link propagation and
+throughput, keeps the rest of the warehouse traffic usable, improves sensing
+stability, and avoids the large power increase of the $8{\times}8$ array. The
+$8{\times}8$ case provides more antenna resources, but its extra energy cost is
+not matched by a proportional communication or sensing improvement.
+
+These results show that ISAC should not be evaluated from sensing accuracy or
+communication throughput alone. A useful warehouse deployment must balance all
+three dimensions: reliable target awareness, useful link improvement, and
+reasonable energy cost. Future work should therefore focus on more robust
+clutter handling, stronger track continuity in dense indoor scenes, and
+beam-management methods that combine target position with channel state
+information. The evaluation should also be extended with more traffic loads,
+random seeds, robot routes, and warehouse layouts so that the operating limits
+of the framework can be characterized more completely.

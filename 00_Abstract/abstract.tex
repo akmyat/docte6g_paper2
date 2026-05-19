@@ -1,36 +1,30 @@
 \begin{abstract}
-The evolution toward 6G is driven by stringent latency, reliability, and
-throughput requirements of Digital-Twin (DT) applications such as smart
-warehouses, autonomous systems, and intelligent environments. In these
-settings, the wireless network is no longer a passive medium but an active
-component that must adapt continuously to user position, mobility, and
-environmental geometry. This motivates situation-aware operation, where the
-antenna system anticipates rather than reacts to channel conditions.
-This paper presents a situation-aware Integrated Sensing and Communication
-(ISAC) framework that couples NVIDIA Sionna RT for GPU-accelerated, site-specific
-ray tracing with ns-3/5G~LENA for full-stack NR networking. The framework is
-organised into four modules: a radar-inspired sensing module that converts
-ray-traced multipath into Equivalent Reflection Points (ERPs) and applies
-$Z$-gating, Moving-Target Indication (MTI), and DBSCAN clustering;
-a multi-target tracking module that combines a constant-velocity Kalman filter
-with Hungarian data association; a sensing-informed adaptive beamforming module
-that synthesises a multi-lobe Gaussian radiation pattern toward confirmed
-tracks; and a communication module that exports per-path channel state to ns-3.
-The framework is validated in two stages. A controlled stage exercises the
-pipeline in free-space, warehouse, and urban-micro street-canyon scenes with
-six ablation variants. An application-oriented stage embeds the framework in
-an end-to-end smart-warehouse Digital Twin with mixed mobile-robot, sensor, and
-video traffic, evaluated for $2{\times}2$, $4{\times}4$, and $8{\times}8$ gNB
-arrays. Results show up to $18$~dB reduction in mean path loss in free space,
-detection rates above $0.84$, and---in the warehouse use case---a $4{\times}4$
-array as the balanced operating point, with roughly $25$~dB reduction in
-robot-link path loss and improved aggregated throughput at near-baseline energy
-cost. The proposed framework is therefore viable for deployment-oriented ISAC
-studies once sufficient gNB array support is available.
+Smart warehouses need wireless networks that can support sensors, controllers,
+video traffic, and mobile robots while also reacting to changes in the
+environment. This paper presents a situation-aware Integrated Sensing and
+Communication (ISAC) co-simulation framework that connects Sionna RT ray
+tracing with ns-3/5G~LENA networking. The framework uses ray-traced multipath
+to detect reflected targets, filters clutter, tracks moving objects, and then
+uses the confirmed target positions to form sensing-informed beams.
+
+The framework is evaluated in two stages. First, controlled free-space and
+warehouse scenes are used to test the sensing and beamforming pipeline under
+clear and cluttered conditions. Second, an end-to-end warehouse Digital Twin is
+used to study the same mechanism with mobile robots, package and rack sensors,
+cameras, video clients, and mixed application traffic. The controlled results
+show that ISAC reduces path loss in both scenes, that a wider beam gives the
+best communication behavior, and that tracking is needed to suppress false
+detections. Deeper propagation gives a small detection gain, but it can also
+increase clutter in the warehouse. In the full warehouse use case, the
+$4{\times}4$ gNB array gives the best balance: the $2{\times}2$ array is not
+stable enough, while the $8{\times}8$ array increases power consumption without
+a proportional performance gain. These results show that practical ISAC
+evaluation must consider sensing quality, communication performance, and energy
+cost together.
 \end{abstract}
 
 \begin{IEEEkeywords}
 Integrated sensing and communication (ISAC), 6G, situation awareness, ray
-tracing, Sionna, ns-3, 5G LENA, adaptive beamforming, multi-target tracking,
-Kalman filter, Digital Twin, smart warehouse.
+tracing, Sionna RT, ns-3, 5G LENA, adaptive beamforming, multi-target tracking,
+Digital Twin, smart warehouse.
 \end{IEEEkeywords}
