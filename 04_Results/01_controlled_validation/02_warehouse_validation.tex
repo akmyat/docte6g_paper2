@@ -1,0 +1,54 @@
+\subsubsection{Warehouse Scene}
+\label{subsubsec:controlled_validation_warehouse}
+
+In the warehouse scene, because of obstacles such racks and partial visibility create the clutter which makes sensing difficult.
+The propagation results in Table \ref{tab:exp1_wh_prop} show that ISAC still improves communication, but the gain is smaller than free space case.
+With ISAC, mean path loss drops from $109.16$ dB to $94.50$--$101.75$ dB across the ISAC variants.
+Like in free space case, \texttt{isac\_wide} is the best in terms of path loss and received power, where it achieves $94.50$ dB path loss and $-48.50$ dBm received power.
+
+\begin{table}[t]
+    \centering
+    \caption{Warehouse-scene propagation metrics.}
+    \label{tab:exp1_wh_prop}
+    \footnotesize
+    \begin{tabular}{lccc}
+        \hline
+        Variant           & Path loss [dB] & Delay [ns] & Rx power [dBm] \\
+        \hline
+        baseline          & 109.16         & 53.95      & $-63.16$       \\
+        isac\_full        & 97.90          & 53.95      & $-51.90$       \\
+        isac\_no\_mti     & 97.39          & 53.95      & $-51.39$       \\
+        isac\_narrow      & 101.75         & 53.95      & $-55.75$       \\
+        isac\_wide        & 94.50          & 53.95      & $-48.50$       \\
+        isac\_deep        & 97.44          & 53.95      & $-51.44$       \\
+        isac\_no\_tracker & 98.52          & 53.95      & $-52.52$       \\
+        \hline
+    \end{tabular}
+\end{table}
+
+The sensing results in Table~\ref{tab:exp1_wh_sense} show that sensing in the warehouse scene is more difficult than in free space.
+The tracked variants of ISAC detect only $0.280$--$0.290$ of the target instances and their missed-detection rates remain high around $0.710$--$0.720$.
+This low detection rate is due to the racks, walls, and indoor objects block some target reflections.
+As a result, some of true robot reflections are either too weak, too fragmented, or too close to clutter to survive the complete sensing pipeline and counted as missed detections.
+The \texttt{isac\_deep} variant produce much higher false-positive rates, showing that deeper ray exploration adds more clutter and makes it harder to distinguish from the target reflections.
+Like in free space, the tracking improve the detection rate and reduce the false-positive rate as the false-positive rate of \texttt{isac\_no\_tracker} is much higher than the others with tracking.
+
+\begin{table}[t]
+    \centering
+    \caption{Warehouse-scene sensing metrics.}
+    \label{tab:exp1_wh_sense}
+    \footnotesize
+    \begin{tabular}{lccccc}
+        \hline
+        Variant           & Det.  & FPR   & Miss  & Err. [m] & Cont. \\
+        \hline
+        baseline          & 0.000 & 0.000 & 1.000 & --       & 0.000 \\
+        isac\_full        & 0.280 & 0.023 & 0.720 & 1.032    & 0.273 \\
+        isac\_no\_mti     & 0.290 & 0.033 & 0.710 & 1.011    & 0.283 \\
+        isac\_narrow      & 0.290 & 0.033 & 0.710 & 1.012    & 0.283 \\
+        isac\_wide        & 0.290 & 0.022 & 0.710 & 1.012    & 0.283 \\
+        isac\_deep        & 0.290 & 0.121 & 0.710 & 1.129    & 0.283 \\
+        isac\_no\_tracker & 0.283 & 0.336 & 0.717 & 1.252    & 0.273 \\
+        \hline
+    \end{tabular}
+\end{table}

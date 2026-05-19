@@ -1,0 +1,47 @@
+\subsection{Controlled Validation Results}
+\label{subsec:controlled_validation_results}
+
+To validate the framework under reproducible propagation conditions, the first experiment is designed as controlled validation experiment.
+For this reason, the framework is tested with two different scenes: free space and an indoor warehouse as shown in Figure \ref{fig:exp1_scenes}.
+Free space scene is least obstructed and it is used as a baseline.
+Warehouse scene represents the indoor use case where there are multiple reflections and blockages from the warehouse infrastructure.
+These two scenes make it possible to observe how the same sensing and beamforming pipeline changes when visibility and clutter change.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]{images/exp1_scenes.png}
+    \caption{Controlled-validation scenes.}
+    \label{fig:exp1_scenes}
+\end{figure}
+
+Each scene is tested with the same basic procedure so that the differences in the results are caused by scene and ISAC configuration rather than changes in workflow.
+The free-space and warehouse use cases use the sinusoidal trajectories of the robots shown in Figure \ref{fig:exp1_trajectories}.
+The system is evaluated for $100$ time steps with a $0.2$ seconds interval, providing a $20$ seconds observation window.
+At each step, propagation is computed and, when situation awareness is enabled, the sensing module produces detections that are filtered, clustered, tracked, and then used for sensing-informed beamforming.
+The baseline does not use ISAC features and performs communication only, while the ISAC variants enable or disable specific functions such as MTI, tracking, beamwidth selection, and propagation depth in order to isolate one part of the proposed pipeline.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]{images/exp1_trajectories.png}
+    \caption{Deterministic robot trajectories used in the controlled
+        validation scenes.}
+    \label{fig:exp1_trajectories}
+\end{figure}
+
+The \texttt{isac\_full} variant test the whole pipeline.
+The \texttt{isac\_no\_mti} variant disables only MTI to test whether removing static-reflection suppression affects detection stability.
+The \texttt{isac\_narrow} and \texttt{isac\_wide} variants change only beamwidth to compare tighter target focusing against wider coverage under localization error.
+The \texttt{isac\_deep} variant increases propagation depth to test whether additional multipath improves sensing or mainly adds clutter.
+The \texttt{isac\_no\_tracker} variant disables temporal tracking to test whether raw frame-by-frame detections are sufficient for beamforming.
+After each run, the estimated target positions are matched to the known ground truth from the trajectories with the Hungarian algorithm, where unmatched estimates are considered as false positives and unmatched targets are considered as missed detections.
+
+\input{04_Results/01_controlled_validation/01_free_space_validation}
+
+\input{04_Results/01_controlled_validation/02_warehouse_validation}
+
+This validation confirms two connected observations.
+First, the framework behaves as expected in free space, where both communication and sensing benefit from favorable visibility.
+Across both scenes, the wider beamwidth gives the best propagation result because it covers target positions uncertainty better than the narrower beam.
+Increasing propagation depth improves detection rate slightly, but the gain is very small and, in the warehouse case, it increases false positive rate.
+Second, the framework works in the warehouse case as well but the performance is degraded due to racks and partial visibility.
+The no-tracker cases show that raw detections alone are not enough as it is needed to reduce the false-positive rate.

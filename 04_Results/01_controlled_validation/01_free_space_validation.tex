@@ -1,0 +1,54 @@
+\subsubsection{Free-Space Scene}
+\label{subsubsec:controlled_validation_free_space}
+
+The results in Table \ref{tab:exp1_fs_prop} shows that enabling ISAC reduces the mean path loss from $102.39$ dB to the range $84.39$--$86.82$dB.
+The mean path delay remains at $54.10$ ns as the mean distance is same for all the variants.
+The differences of performance is more observable in received power as in path loss.
+Among the tested ablations, \texttt{isac\_wide} achieves the lowest path loss and the strongest received power, which indicates that the wider beam is beneficial when clutter is minimal.
+
+\begin{table}[t]
+    \centering
+    \caption{Free-space propagation metrics.}
+    \label{tab:exp1_fs_prop}
+    \footnotesize
+    \begin{tabular}{lccc}
+        \hline
+        Variant           & Path loss [dB] & Delay [ns] & Rx power [dBm] \\
+        \hline
+        baseline          & 102.39         & 54.10      & $-56.39$       \\
+        isac\_full        & 86.30          & 54.10      & $-40.30$       \\
+        isac\_no\_mti     & 85.53          & 54.10      & $-39.53$       \\
+        isac\_narrow      & 86.82          & 54.10      & $-40.82$       \\
+        isac\_wide        & 84.39          & 54.10      & $-38.39$       \\
+        isac\_deep        & 85.54          & 54.10      & $-39.54$       \\
+        isac\_no\_tracker & 85.43          & 54.10      & $-39.43$       \\
+        \hline
+    \end{tabular}
+\end{table}
+
+The sensing and tracking results in Table~\ref{tab:exp1_fs_sense} follow a similar trend.
+The tracking-enabled ISAC variants achieve detection rates between $0.847$ and $0.903$, while their false-positive rates remain close to $0.018$--$0.019$.
+Among them, \texttt{isac\_deep} achieves the highest detection rate $0.903$ and lowest missed-detection rate $0.097$, which shows that additional propagation depth can help to detect better but the gain over the other tracked variants is small.
+However, the extra computation necessary for deeper propagation does not worth the gain.
+The \texttt{isac\_no\_tracker} variant achieves the highest raw detection rate ($0.970$), but it also increases the false-positive rate to $0.176$.
+This means that the tracker is useful because it trades raw sensitivity for cleaner detection.
+
+\begin{table}[t]
+    \centering
+    \caption{Free-space sensing metrics.}
+    \label{tab:exp1_fs_sense}
+    \footnotesize
+    \begin{tabular}{lccccc}
+        \hline
+        Variant           & Det.  & FPR   & Miss  & Err. [m] & Cont. \\
+        \hline
+        baseline          & 0.000 & 0.000 & 1.000 & --       & 0.000 \\
+        isac\_full        & 0.847 & 0.019 & 0.153 & 1.148    & 0.550 \\
+        isac\_no\_mti     & 0.897 & 0.018 & 0.103 & 1.125    & 0.537 \\
+        isac\_narrow      & 0.897 & 0.018 & 0.103 & 1.125    & 0.537 \\
+        isac\_wide        & 0.897 & 0.018 & 0.103 & 1.125    & 0.537 \\
+        isac\_deep        & 0.903 & 0.018 & 0.097 & 1.126    & 0.510 \\
+        isac\_no\_tracker & 0.970 & 0.176 & 0.030 & 1.208    & 0.583 \\
+        \hline
+    \end{tabular}
+\end{table}
