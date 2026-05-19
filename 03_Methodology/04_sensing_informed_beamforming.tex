@@ -1,0 +1,61 @@
+\subsection{Sensing-Informed Adaptive Beamforming}
+\label{subsec:beamforming}
+
+The sensing-informed beamforming module uses the confirmed 3D target positions from the tracking module to steer the beam towards the moving targets.
+It is applied only when there is at least one moving target is confirmed.
+Otherwise, the simulator perform propagation without using the adaptive beamforming pattern.
+This design keeps the propagation model unchanged when sensing does not provide reliable target information.
+
+Let the confirmed target positions at time $t$ be
+\begin{equation}
+    \mathcal{P}_t =
+    \{\mathbf{p}_{t,m}\}_{m=1}^{M_t},
+\end{equation}
+where $\mathbf{p}_{t,m}$ is the 3D position of tracked target $m$.
+
+For each target, the module first computes the direction from the gNB position $\mathbf{p}_{\mathrm{gNB}}$ to the target:
+\begin{equation}
+    \mathbf{u}_{t,m}
+    =
+    \mathbf{p}_{t,m} - \mathbf{p}_{\mathrm{gNB}}.
+\end{equation}
+
+This vector is then converted into spherical steering angles:
+\begin{align}
+    \theta_{t,m}
+     & =
+    \arccos\!\left(
+    \frac{u_{t,m,z}}{\|\mathbf{u}_{t,m}\|_2}
+    \right), \\
+    \phi_{t,m}
+     & =
+    \operatorname{atan2}(u_{t,m,y},u_{t,m,x}),
+\end{align}
+where $\theta_{t,m}$ is the zenith angle and $\phi_{t,m}$ is the azimuth angle.
+
+Instead of computing a separate digital precoder, the implementation constructs a custom Sionna RT antenna pattern with one Gaussian lobe per confirmed target.
+For an observation direction $(\theta,\phi)$, let $\hat{\mathbf{r}}(\theta,\phi)$ be the corresponding unit direction vector.
+The angular separation between this observation direction and the steering direction of target $m$ is
+\begin{equation}
+    \psi_m(\theta,\phi)
+    =
+    \arccos\!\left(
+    \hat{\mathbf{r}}(\theta,\phi)^{\!\top}
+    \hat{\mathbf{r}}(\theta_{t,m},\phi_{t,m})
+    \right).
+\end{equation}
+Using a beamwidth parameter $\sigma=\mathrm{deg2rad}(W)$, the multi-lobe gain is
+\begin{equation}
+    G(\theta,\phi)
+    =
+    \sum_{m=1}^{M_t}
+    \exp\!\left(
+    -\frac{\psi_m(\theta,\phi)^2}{2\sigma^2}
+    \right).
+    \label{eq:sensing_informed_multilobe}
+\end{equation}
+
+The resulting parameters are used to configured the beamforming pattern, which is then updated on the gNB.
+After the adaptive beamforming pattern is configured, the simulator performs the propagation calculation.
+If the beamforming update fails or no confirmed target is available, the simulator falls back to the original propagation model.
+To summrize, the sensing-informed adaptive beamforming module uses the confirmed 3D target positions from the tracking module to steer the beam towards the moving targets and channel response with beamforming is then calculated and returned to ns-3 for further processing.

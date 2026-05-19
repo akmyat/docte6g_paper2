@@ -1,0 +1,9 @@
+\subsubsection{Z-filtering}
+\label{subsubsec:z-filtering}
+
+Rays reflected from the floor and ceiling of the environment create ghost ERPs that lie outside the height range of targets.
+To reduce these ghost ERPs, a simple filtering is applied.
+\begin{equation}
+    z_{min} \le z_\ell^{\mathrm{ERP}} \le z_{max}
+\end{equation},
+where $z_{min}$ and $z_{max}$ are the minimum and maximum height of the target object that we would like to detect.

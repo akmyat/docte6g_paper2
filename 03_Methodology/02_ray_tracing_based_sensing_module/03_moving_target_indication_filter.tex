@@ -1,0 +1,13 @@
+\subsubsection{Moving-Target-Indication (MTI) Filter}
+\label{subsubsec:mti-filter}
+
+To distinguish the static background and moving object, a Moving-Target-Indication (MTI) filter is used.
+The first ERP frame in the simulation is considered as a static background point cloud
+\begin{equation}
+    \mathcal{B} = \{\mathbf{b}_1,\mathbf{b}_2,\ldots,\mathbf{b}_M\}
+\end{equation}
+where $\mathbf{b}_i$ is the $i$-th ERP in the first frame.
+For all the ERP that follows first frame, the nearest-background distance which is implemented using k-d tree:
+\begin{equation}
+    d_{\mathcal{B}}(\mathbf{p}) = \min_{\mathbf{b}\in\mathcal{B}}\|\mathbf{p}-\mathbf{b}\|_2
+\end{equation} is computed and only points that satisfy $d_{\mathcal{B}}(\mathbf{p})>d_{MTI}$ are kept.

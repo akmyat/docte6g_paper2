@@ -1,0 +1,27 @@
+\subsubsection{DBSCAN Clustering}
+\label{subsubsec:dbscan-clustering}
+
+When rays of signal strike on a single physcial object, typically, multiple rays will be reflected from different parts of the object.
+This results in multiple ERPs generated from the same object.
+To identify and isolate each individual objects, in the evironment, clustering algorithms is applied on ERP point cloud which group several points into clusters that corresponding to actual objects.
+In this framework DBSCAN clustering algorithm is used as it does not require the number of clusters (i.e. number of objects) in advance, filters out isolated noise points and good at identifying dense regions.
+
+For each identified cluster $\mathcal{C}_k$, the representative point of each cluster $\mathbf{z}_k$ is selected by choosing the point which has the highest received signal power:
+\begin{equation}
+    \mathbf{z}_k = \mathbf{p}_{n^\ast}, \quad \text{where } n^\ast = \arg\max_{n\in\mathcal{C}_k} \overline{P_n}
+\end{equation}, and overall received signal power of the cluster $P_k$ is computed by summing the powers of all the ERPs in the cluster:
+\begin{equation}
+    P_k = \sum_{n\in\mathcal{C}_k} \overline{P_n}
+\end{equation}.
+
+To avoid duplicated reporting of the same physical object, the candidate clusters are sorted in descending order of their order of their total power $P_k$.
+If the Euclidean distance between the representative points of any two clusters is less than the separation threshold:
+\begin{equation}
+    \|\mathbf{z}_i - \mathbf{z}_j\|_2 < d_{\mathrm{sep}}
+\end{equation}
+the cluster with lower total power is removed.
+Finally, it returns at most $N_{max}$ candidates with strongest received signal power are returned as tuples:
+\begin{equation}
+    \mathcal{D}_k = (k, \mathbf{z}_k, P_k)
+\end{equation},
+where $k$ is the cluster index, $\mathbf{z}_k$ is the representative point of the cluster, and $P_k$ is the total received signal power of the cluster.

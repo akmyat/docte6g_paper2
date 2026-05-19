@@ -1,0 +1,20 @@
+\subsubsection{Equivalent Reflection Point (ERP)}
+\label{subsubsec:equivalent-reflection-points}
+
+In complex environments, an electromagnetic wave often undergoes multiple interactions such as specular reflections, edge diffractions, or diffuse scattering before returning to the receiver.
+Tracing every interaction sequence requires prior knowledge of the object's exact geometry and material properties.
+Instead, the core idea behind detection in this framework is to abstract these potentially complex multipath trajectories into an Equivalent Reflection Point (ERP).
+The ERP combines the total delay and direction change of the entire signal path into a single 3D point, removing the need to find every individual bounce along the way.
+
+In our proposed framework, a monostatic ISAC setup is used where the transmitter and receivers are collocated.
+Each remaining path $\ell$ is mapped to a single ERP in 3D space:
+\begin{equation}
+    \mathbf{p}_\ell^{\mathrm{ERP}}
+    = \mathbf{p}_{\mathrm{gNB}}
+    + \!\left(\frac{L_\ell}{2} + \delta\right)\mathbf{d}_\ell,
+    \label{eq:erp}
+\end{equation},
+where $\mathbf{p}_{\mathrm{gNB}}$ is the gNB spatial location, and $\mathbf{d}_\ell$ is the unit direction vector of the path.
+To account for the round-trip distance in monostatic case, we divide the path delay by 2($L_\ell/2$).
+$\delta$, a small calibration offset is added to mitigates the bias introduced by reflection on an object's exterior surface rather than precisely at its geometric centre.
+By transforming raw angle-delay measurements into 3D coordinates, the ERP allows to reconstruct the target's shape and locate its position.

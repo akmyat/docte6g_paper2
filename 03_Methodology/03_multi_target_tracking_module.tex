@@ -1,0 +1,106 @@
+\subsection{Multi-Target Tracking Module}
+\label{subsec:tracking}
+
+At each sensing update $t$, the sensing module produces a set of candidates for the detected objects, each with a 3D representative position and an accumulated power.
+However, when there is occlusion or clutter, the sensing module may produce ghost detections or miss detections.
+To address this issue and achieve temporal consistency, the multi-target tracking module converts these detections into temporally consistent tracked targets.
+Then, these traced targets are passed to the beamforming module.
+
+Let the detection set at sensing update $t$ be
+\begin{equation}
+    \mathcal{D}_t =
+    \{(\mathbf{z}_{t,j}, P_{t,j})\}_{j=1}^{N_t},
+\end{equation}
+where $\mathbf{z}_{t,j}\in\mathbb{R}^{3}$ is the representative position of detection $j$ and $P_{t,j}$ is its total power.
+The sensing module uses power to rank candidate detections, while the tracking module uses position to match detections over time.
+
+Each active tracked target is represented by a constant-velocity Kalman filter with state
+\begin{equation}
+    \mathbf{x}_{t,i}
+    =
+    [x_{t,i}, y_{t,i}, z_{t,i},
+    v_{x,t,i}, v_{y,t,i}, v_{z,t,i}]^{\!\top}.
+\end{equation},
+where the first three components represent the positions and the last three components represent the velocities of the $i$-th tracked target.
+
+At each sensing update$t$, the next possible state of each active tracked target is predicted as
+\begin{align}
+    \mathbf{x}_{t|t-1,i} & = F\mathbf{x}_{t-1|t-1,i},        \\
+    P_{t|t-1,i}          & = F P_{t-1|t-1,i} F^{\!\top} + Q,
+\end{align}
+where $Q$ is the process-noise covariance and
+\begin{equation}
+    F =
+    \begin{bmatrix}
+        I_3                    & \Delta t I_3 \\
+        \mathbf{0}_{3\times 3} & I_3
+    \end{bmatrix}.
+\end{equation}
+$\Delta t$ corresponds to one sensing update.
+
+After prediction, the tracking algorithm matches the predicted tracked targets to the detections in the current sensing update.
+This matching process is known as data association in multi-target tracking.
+For each predicted tracked target $i$ and detection $j$, the matching cost is the Euclidean distance
+\begin{equation}
+    c_{ij}
+    =
+    \left\|
+    H\mathbf{x}_{t|t-1,i} - \mathbf{z}_{t,j}
+    \right\|_2,
+    \qquad
+    H = [I_3 \;\; \mathbf{0}_{3\times 3}].
+\end{equation}
+
+Pairs with $c_{ij}>c_{\max}$ are considered unlikely and are assigned a large penalty.
+The Hungarian algorithm~\cite{ref:hungarian} then selects the set of matches with the minimum total cost:
+\begin{equation}
+    \pi^\star
+    =
+    \arg\min_{\pi}
+    \sum_{(i,j)\in\pi} c_{ij}.
+\end{equation}
+This joint matching avoids greedy decisions when multiple targets and detections are close to each other.
+
+Each accepted tracked target--detection pair is corrected using the Kalman update.
+The measurement residual and Kalman gain are
+\begin{align}
+    \mathbf{y}_{t,i} & =
+    \mathbf{z}_{t,j} - H\mathbf{x}_{t|t-1,i}, \\
+    S_{t,i}          & =
+    H P_{t|t-1,i} H^{\!\top} + R,             \\
+    K_{t,i}          & =
+    P_{t|t-1,i} H^{\!\top} S_{t,i}^{-1},
+\end{align}
+where $R$ is the measurement-noise covariance.
+
+The corrected state and covariance are then
+\begin{align}
+    \mathbf{x}_{t|t,i} & =
+    \mathbf{x}_{t|t-1,i} + K_{t,i}\mathbf{y}_{t,i}, \\
+    P_{t|t,i}          & =
+    (I - K_{t,i}H)P_{t|t-1,i}.
+\end{align}
+After a successful update, the age of the tracked target is increased and its missed-frame counter is reset.
+
+Unmatched predicted targets are kept temporarily by increasing their missed-frame counter, which allows the tracker to bridge short sensing gaps.
+They are removed once this counter reaches the maximum allowed value $M_{\max}$.
+For detections that are not matched to any of the existing tracked targets, a new tracked target is initialized with the detection's position and zero velocity:
+\begin{equation}
+    \mathbf{x}_{0}
+    =
+    [z_x, z_y, z_z, 0, 0, 0]^{\!\top}.
+\end{equation}
+The initial position is also stored as $\mathbf{p}_{\mathrm{start}}$ for later confirmation.
+
+The tracker exports only confirmed moving tracked targets.
+A tracked target is confirmed when it has survived for at least $A_{\min}$ frames and its displacement from the starting position exceeds $d_{\min}$:
+\begin{equation}
+    \left\|
+    H\mathbf{x}_{t,i} - \mathbf{p}_{\mathrm{start},i}
+    \right\|_2
+    >
+    d_{\min}.
+\end{equation}
+This rule reduces short-lived detections and static residual clutter.
+In this work, we set  $M_{\max}=3$, $A_{\min}=3$, and $d_{\min}$ is configurable at runtime.
+The output of this tracking module is the list of confirmed 3D target positions used by the sensing-informed beamforming stage.

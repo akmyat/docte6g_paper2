@@ -1,0 +1,33 @@
+\subsubsection{Pre-processing}
+\label{subsubsec:preprocessing}
+
+To get a single representative value for each path, we compute the average path power, delay, angles of arrival, and angles of departure.
+For each path $\ell$, the average path power is computed from channel coefficients, average delay from the propagation delay, average angles of arrival are computed.
+\begin{equation}
+    \overline{P_\ell} = \frac{1}{|I|}\sum_{i\in1}{|a_{i}^{2}}|,
+    \qquad
+    \overline{\tau_\ell} = \frac{1}{|I|}\sum_{i\in I}{|\tau_{\ell,i}|}
+\end{equation}
+\begin{equation}
+    \overline{\theta_\ell} = \frac{1}{|I|}\sum_{i\in I}{\theta_{\ell,i}},
+    \qquad
+    \overline{\phi_\ell} = \frac{1}{|I|}\sum_{i\in I}{\phi_{\ell,i}}
+\end{equation}
+
+Paths with $\overline{\tau_\ell} \le 10^{-9}$s are dropped to remove paths with almost zero delays to keep only paths that likely traveleda meaningful distance.
+Then, the distance or range for each path is computed by converting remaining path delays using the speed of light.
+\begin{equation}
+    L_\ell = c\overline{\tau_\ell}
+\end{equation}
+
+Instead of a fixed limit, we use a power threshold that adjusts based on distance so we do not lose weak signals from far away.
+\begin{equation}
+    s_\ell = \max\!\left(\frac{L_\ell}{10},1\right)^{\!1.1},
+    \qquad
+    P_{\mathrm{th},\ell} = \frac{P_{\min}}{s_\ell},
+\end{equation}
+Paths with $\overline{P_\ell}>P_{\mathrm{th},\ell}$ are kept.
+Finally, each remaining angle pair is converted to a 3D unit direction,
+\begin{equation}
+    \mathbf{d}_\ell=[\sin\theta_\ell\cos\phi_\ell,\sin\theta_\ell\sin\phi_\ell,\cos\theta_\ell]^{\!\top}
+\end{equation}
